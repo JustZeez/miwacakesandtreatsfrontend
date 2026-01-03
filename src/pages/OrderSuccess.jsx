@@ -13,8 +13,11 @@ export default function OrderSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const orderId = location.state?.orderId;
-  const customerName = location.state?.customerName || "Sweet Tooth";
+  // const location = useLocation();
+const state = location.state ?? {};
+
+const orderId = state.orderId;
+const customerName = state.customerName || "Sweet Tooth";
 
   useEffect(() => {
     if (!orderId) {

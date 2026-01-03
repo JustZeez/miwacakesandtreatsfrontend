@@ -53,7 +53,7 @@ import { CartProvider } from '../context/CartContext'
 import CartDrawer from '../componets/cart/CartDrawer'
 import Training from '../pages/Training'
 import FloatingWhatsApp from '../componets/FloatingWhatsApp'
-export default function Router() {
+export default function AppRoutes() {
   return (
     <CartProvider> 
       <Navbar />
