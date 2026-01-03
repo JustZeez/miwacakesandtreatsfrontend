@@ -10,7 +10,7 @@ import AppRoutes from "./router/AppRoutes";
 function App() {
   return (
     <>
-     <Router/>
+     <AppRoutes/>
 
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
 
