@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {  Route, Routes } from 'react-router-dom'
 import { Navbar } from '../componets/common/Navbar'
 import { Footer } from '../componets/common/Footer'
 import Treats from '../pages/Treats'
@@ -18,7 +18,6 @@ import Training from '../pages/Training'
 export default function Router() {
   return (
     <CartProvider> 
-      <BrowserRouter>
         <Navbar />
         <CartDrawer /> 
         <Routes>
@@ -34,7 +33,6 @@ export default function Router() {
           <Route path='/training' element={<Training />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
     </CartProvider>
   )
 }
