@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FloatingWhatsApp from "./componets/FloatingWhatsApp";
+// import FloatingWhatsApp from "./componets/FloatingWhatsApp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

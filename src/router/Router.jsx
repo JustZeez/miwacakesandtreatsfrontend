@@ -52,7 +52,7 @@ import TermsAndConditions from '../pages/TermsAndConditions'
 import { CartProvider } from '../context/CartContext'
 import CartDrawer from '../componets/cart/CartDrawer'
 import Training from '../pages/Training'
-
+import FloatingWhatsApp from '../componets/FloatingWhatsApp'
 export default function Router() {
   return (
     <CartProvider> 
@@ -73,6 +73,7 @@ export default function Router() {
           <Route path='/training' element={<Training />} />
         </Routes>
       </main>
+      <FloatingWhatsApp/>
       <Footer />
     </CartProvider>
   )
