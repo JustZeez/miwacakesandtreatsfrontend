@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Utensils, Gift, Coffee } from "lucide-react";
 import Review from "../componets/cards/Review";
+import heroImage from "../assets/images/hero2.jpg";
 
 export default function Home() {
   return (
@@ -36,7 +37,7 @@ export default function Home() {
           <div className="relative">
             <div className="w-full h-[400px] md:h-[600px] bg-brand-rose/10 rounded-[40px] overflow-hidden border-8 border-white shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
               <img
-                src="src/assets/images/hero2.jpg"
+                src={heroImage}
                 alt="Signature Miwa Cake"
                 className="w-full h-full object-cover"
               />
