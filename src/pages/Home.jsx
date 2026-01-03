@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Utensils, Gift, Coffee } from "lucide-react";
 import Review from "../componets/cards/Review";
-import heroImage from "../assets/images/hero2.jpg";
+import heroImage from "../assets/images/hero2.jpg"
 
 export default function Home() {
   return (
