@@ -5,9 +5,9 @@ export const products = [
     name: "Mocktail",
     category: "Treats",
     variants: [
-      { image: "/images/mocktail.jpg", price: 1500, description: "Icy and Invigorating." },
-      { image: "/images/mocktail1.jpg", price: 1500, description: "Icy and Invigorating." },
-      { image: "/images/mocktail2.jpg", price: 1500, description: "Icy and Invigorating." }
+      { image: "/mocktail.jpg", price: 1500, description: "Icy and Invigorating." },
+      { image: "/mocktail1.jpg", price: 1500, description: "Icy and Invigorating." },
+      { image: "/mocktail2.jpg", price: 1500, description: "Icy and Invigorating." }
     ]
   },
   {
