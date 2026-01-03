@@ -4,12 +4,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
-import { Router } from "react-router-dom";
+import Router from "./router/router";
+
 
 function App() {
   return (
     <>
-      <Router />
+     <Router/>
 
       <ToastContainer position="top-right" autoClose={3000} theme="light" />
 
