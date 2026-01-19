@@ -15,7 +15,7 @@ import { useCart } from "../context/CartContext";
 export default function Checkout() {
   const navigate = useNavigate();
 
-  const { cart, clearCart, total } = useCart();
+  const { cart, clearCart, subtotal, vat, total } = useCart();
 
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
@@ -91,6 +91,88 @@ export default function Checkout() {
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-6">
+            {/* VAT Notice Banner */}
+            {subtotal > 10000 && (
+              <div className="bg-gradient-to-br from-brand-pink/5 via-brand-cream/10 to-white rounded-2xl p-5 border-2 border-brand-pink/20 shadow-lg shadow-brand-pink/10">
+                <div className="flex items-center gap-4">
+                  {/* Brand-colored emoji badge */}
+                  <div className="relative">
+                    <div className="w-14 h-14 bg-gradient-to-br from-brand-rose to-brand-pink rounded-2xl flex items-center justify-center shadow-lg shadow-brand-rose/30">
+                      <span className="text-2xl">💰</span>
+                    </div>
+                  </div>
+
+                  {/* Clean, bold content */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-xl font-bold text-brand-dark">
+                        VAT Notice
+                      </h3>
+                      <span className="px-3 py-1 bg-brand-rose text-white text-xs font-bold rounded-full">
+                        IMPORTANT
+                      </span>
+                    </div>
+
+                    <p className="text-gray-800 font-medium">
+                      <span className="text-brand-rose font-bold">₦50 VAT</span>{" "}
+                      applied to orders above
+                      <span className="text-brand-rose font-bold mx-1">
+                        ₦10,000
+                      </span>
+                    </p>
+
+                    {/* Status indicator - styled with brand colors */}
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`w-3 h-3 rounded-full ${
+                            subtotal > 10000
+                              ? "bg-brand-rose animate-pulse"
+                              : "bg-gray-300"
+                          }`}
+                        ></div>
+                        <span className="text-sm font-medium text-brand-dark">
+                          {subtotal > 10000 ? "VAT Applied ✓" : "No VAT yet"}
+                        </span>
+                      </div>
+
+                      <div className="text-right">
+                        <div className="text-xs text-gray-500">
+                          Your cart total
+                        </div>
+                        <div className="font-bold text-lg text-brand-dark">
+                          ₦{subtotal.toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Progress indicator */}
+                    <div className="mt-3">
+                      <div className="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>VAT Threshold: ₦10,000</span>
+                      </div>
+                      <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${
+                            subtotal > 10000
+                              ? "bg-brand-rose"
+                              : "bg-gradient-to-r from-brand-pink to-brand-rose"
+                          }`}
+                          style={{
+                            width: `${Math.min(
+                              (subtotal / 10000) * 100,
+                              100
+                            )}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Payment Information Card */}
             <div className="bg-brand-dark text-white p-8 rounded-[40px] shadow-xl">
               <div className="flex items-center gap-3 mb-6 text-brand-rose">
                 <Banknote size={28} />
@@ -125,10 +207,28 @@ export default function Checkout() {
                 </p>
               </div>
 
+              {/* Order Summary with VAT Breakdown */}
               <div className="p-4 bg-brand-rose/10 rounded-2xl border border-brand-rose/20 mb-6">
-                <p className="text-brand-rose font-bold text-center text-xl">
-                  Total to Pay: ₦{(total || 0).toLocaleString()}
-                </p>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>Subtotal:</span>
+                    <span>₦{(subtotal || 0).toLocaleString()}</span>
+                  </div>
+
+                  {vat > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-500">
+                        VAT (orders above ₦10,000):
+                      </span>
+                      <span>₦{vat.toLocaleString()}</span>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between text-brand-rose font-bold text-xl pt-2 border-t border-brand-rose/20">
+                    <span>Total to Pay:</span>
+                    <span>₦{(total || 0).toLocaleString()}</span>
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4 text-sm opacity-80 leading-relaxed">
@@ -148,6 +248,7 @@ export default function Checkout() {
             </div>
           </div>
 
+          {/* Order Form */}
           <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-sm border border-brand-pink/20">
             <div className="flex items-center gap-3 mb-8">
               <span className="p-3 bg-brand-rose/10 rounded-2xl text-brand-rose">

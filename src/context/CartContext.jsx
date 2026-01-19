@@ -38,26 +38,30 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem("miwa_cart");
   };
 
-  const total = cart.reduce(
-    (sum, item) => sum + Number(item.price) * (item.quantity || 1),
-    0
-  );
+  const subtotal = cart.reduce(
+  (sum, item) => sum + Number(item.price) * (item.quantity || 1),
+  0
+);
 
-  return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        total,
-        isCartOpen,
-        setIsCartOpen,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+const vat = subtotal > 10000 ? 50 : 0; 
+const total = subtotal + vat;
+ return (
+  <CartContext.Provider
+    value={{
+      cart,
+      addToCart,
+      removeFromCart,
+      clearCart,
+      subtotal, 
+      vat,      
+      total,
+      isCartOpen,
+      setIsCartOpen,
+    }}
+  >
+    {children}
+  </CartContext.Provider>
+);
 };
 
 export const useCart = () => {

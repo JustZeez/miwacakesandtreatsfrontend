@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { X, ShoppingBag, Trash2, ArrowRight } from "lucide-react";
 
 export default function CartDrawer() {
-  const { cart, removeFromCart, total, isCartOpen, setIsCartOpen } = useCart();
+  const { cart, removeFromCart, subtotal, vat, total, isCartOpen, setIsCartOpen } = useCart();
   const navigate = useNavigate();
 
   if (!isCartOpen) return null;
@@ -89,30 +89,51 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {cart.length > 0 && (
-          <div className="p-6 border-t border-brand-pink/20 bg-gray-50">
-            <div className="flex justify-between text-lg font-bold mb-6 text-brand-dark">
-              <span>Total Amount:</span>
-              <span className="text-brand-rose text-2xl">
-                ₦{total.toLocaleString()}
-              </span>
-            </div>
 
-            <button
-              onClick={() => {
-                setIsCartOpen(false);
-                navigate("/checkout");
-              }}
-              className="w-full bg-brand-rose text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-dark transition-all shadow-lg active:scale-[0.98]"
-            >
-              Proceed to Checkout <ArrowRight size={20} />
-            </button>
-
-            <p className="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-widest">
-              Freshly made by Miwa Cakes & Treats
-            </p>
+{cart.length > 0 && (
+  <div className="p-6 border-t border-brand-pink/20 bg-gray-50 space-y-4">
+    {/* Add VAT display */}
+    <div className="space-y-2">
+      <div className="flex justify-between text-gray-600">
+        <span>Subtotal:</span>
+        <span>₦{subtotal.toLocaleString()}</span>
+      </div>
+      
+      {vat > 0 && (
+        <>
+          <div className="flex justify-between">
+            <span className="text-sm text-gray-500">VAT (orders above ₦10,000):</span>
+            <span>₦{vat.toLocaleString()}</span>
           </div>
-        )}
+          <div className="text-xs text-gray-400 italic">
+            ₦50 VAT applied to orders above ₦10,000
+          </div>
+        </>
+      )}
+      
+      <div className="flex justify-between text-lg font-bold text-brand-dark pt-2 border-t border-brand-pink/20">
+        <span>Total Amount:</span>
+        <span className="text-brand-rose text-2xl">
+          ₦{total.toLocaleString()}
+        </span>
+      </div>
+    </div>
+
+    <button
+      onClick={() => {
+        setIsCartOpen(false);
+        navigate("/checkout");
+      }}
+      className="w-full bg-brand-rose text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-dark transition-all shadow-lg active:scale-[0.98]"
+    >
+      Proceed to Checkout <ArrowRight size={20} />
+    </button>
+
+    <p className="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-widest">
+      Freshly made by Miwa Cakes & Treats
+    </p>
+  </div>
+)}
       </div>
     </div>
   );
