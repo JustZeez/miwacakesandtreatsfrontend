@@ -77,10 +77,10 @@ export const products = [
     name: "Thick Creamy Drinking Yoghurt",
     category: "Treats",
     variants: [
-      { image: "/images/thickcreamyplaindrinkingyoghurt.jpg", price: 1350, description: "Plain sweetened yoghurt (Pure bliss)." },
-      { image: "/images/thickcreamychocolatedrinkingyoghurt.jpg", price: 1550, description: "Chocolate sweetened yoghurt (Choco bliss)." },
-      { image: "/images/thickcreamystrawberrydrinkingyoghurt.jpg", price: 1450, description: "Strawberry sweetened yoghurt (Berry bliss)." },
-      { image: "/images/thickcreamydrinkingyoghurt.jpg", price: "1450,1550,1350", description: "Creamy drinking yoghurt (3 Flavor)." },
+      { image: "/images/thickcreamyplaindrinkingyoghurt.jpg", price: 1500, description: "Plain sweetened yoghurt (Pure bliss)." },
+      { image: "/images/thickcreamychocolatedrinkingyoghurt.jpg", price: 1600, description: "Chocolate sweetened yoghurt (Choco bliss)." },
+      { image: "/images/thickcreamystrawberrydrinkingyoghurt.jpg", price: 1700, description: "Strawberry sweetened yoghurt (Berry bliss)." },
+      { image: "/images/thickcreamydrinkingyoghurt.jpg", price: "1500,1600,1700", description: "Creamy drinking yoghurt (3 Flavor)." },
     ]
   },
 
