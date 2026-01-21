@@ -92,7 +92,6 @@ export default function CartDrawer() {
 
 {cart.length > 0 && (
   <div className="p-6 border-t border-brand-pink/20 bg-gray-50 space-y-4">
-    {/* Add VAT display */}
     <div className="space-y-2">
       <div className="flex justify-between text-gray-600">
         <span>Subtotal:</span>
