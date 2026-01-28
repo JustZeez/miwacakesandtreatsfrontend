@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, X, GraduationCap, Star, Cake } from "lucide-react";
+import { ShoppingCart, Menu, X, GraduationCap, Star, Cake, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../../context/CartContext";
 
@@ -15,6 +15,8 @@ export const Navbar = () => {
     { name: "Treats", path: "/treats", icon: <Cake size={18} /> },
     { name: "Training", path: "/training", icon: <GraduationCap size={18} /> },
     { name: "Reviews", path: "/reviews", icon: <Star size={18} /> },
+    { name: "Orders", path: "/admin/login", icon: <Star size={18} /> },
+    { name: "Track Order", path: "/trackorder", icon: <Package size={18} /> },
   ];
 
   return (

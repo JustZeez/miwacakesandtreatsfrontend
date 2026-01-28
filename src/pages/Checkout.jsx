@@ -65,23 +65,40 @@ export default function Checkout() {
     data.append("cartItems", JSON.stringify(cart));
     data.append("totalAmount", total);
 
-    try {
-      const response = await orderAPI.createOrder(data);
-
-      if (response.data.success) {
-        toast.success("Order placed successfully!");
-        clearCart();
-        navigate("/ordersuccess", {
-          state: {
-            orderId: response.data.order.orderId,
-            customerName: formData.fullName,
-          },
-        });
-      }
-    } catch (error) {
-      console.error("Submission Error:", error);
-      toast.error(error.response?.data?.error || "Order failed");
-    } finally {
+  // In Checkout.jsx - update the success handler
+try {
+  const response = await orderAPI.createOrder(data);
+  
+  console.log('Order response:', response.data); // For debugging
+  
+  if (response.data.success) {
+    toast.success("Order placed successfully!");
+    clearCart();
+    
+    // Get orderId from response (it's at root level)
+    const orderId = response.data.orderId;
+    
+    if (!orderId) {
+      console.error('No orderId in response:', response.data);
+      toast.error('Order placed but no order ID received');
+      return;
+    }
+    
+    navigate("/ordersuccess", {
+      state: {
+        orderId: orderId,
+        customerName: formData.fullName,
+        // You can pass more data if needed
+        orderData: response.data
+      },
+    });
+  } else {
+    toast.error(response.data.error || "Order submission failed");
+  }
+} catch (error) {
+  console.error("Full error:", error);
+  toast.error(error.response?.data?.error || "Order failed. Please try again.");
+} finally {
       setLoading(false);
     }
   };
