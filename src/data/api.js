@@ -45,10 +45,18 @@ export const orderAPI = {
     });
   },
 
-  trackOrder: (orderId, phone) =>
-    api.get(`/orders/track/${orderId}?phone=${phone}`),
+  trackOrder: (orderId, phone) => {
+    console.log("Tracking order:", { orderId, phone });
+    const encodedOrderId = encodeURIComponent(orderId);
+    console.log("Encoded orderId:", encodedOrderId);
+    
+    return api.get(`/orders/track/${encodedOrderId}`, {
+      params: { phone: phone }
+    });
+  },
 
-  getOrderDetails: (orderId) => api.get(`/orders/${orderId}`),
+  getOrderDetails: (orderId) => 
+    api.get(`/orders/${encodeURIComponent(orderId)}`),
 };
 
 export const adminAPI = {

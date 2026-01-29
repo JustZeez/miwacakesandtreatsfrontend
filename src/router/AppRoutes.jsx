@@ -19,6 +19,7 @@ import AdminDashboard from "../pages/AdminDashboard";
 import AdminLogin from "../pages/AdminLogin";
 import ProtectedRoute from "../componets/ProtectedRoute";
 import TrackOrder from "../pages/TrackOrder";
+import TrackingResult from "../pages/Tracking";
 
 export default function AppRoutes() {
   return (
@@ -38,6 +39,7 @@ export default function AppRoutes() {
           <Route path="/privacyandpolicy" element={<PrivacyandPolicy />} />
           <Route path="/training" element={<Training />} />
           <Route path="/trackorder" element={<TrackOrder />} />
+          <Route path="/trackingresult" element={<TrackingResult />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>
         </Routes>
