@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if admin is already authenticated
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     setIsAuthenticated(!!token);
     setIsLoading(false);
   }, []);

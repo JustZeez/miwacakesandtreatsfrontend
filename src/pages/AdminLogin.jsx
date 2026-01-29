@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { Cake, Loader, AlertCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { adminAPI } from '../data/api';
+import React, { useState } from "react";
+import { Cake, Loader, AlertCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { adminAPI } from "../data/api";
 
 const AdminLogin = () => {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      setError('');
+      setError("");
       const response = await adminAPI.login(password);
-      
+
       if (response.data.token) {
-        localStorage.setItem('adminToken', response.data.token);
-        navigate('/admin');
+        localStorage.setItem("adminToken", response.data.token);
+        navigate("/admin");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Invalid password. Please try again.');
+      console.error("Login error:", error);
+      setError("Invalid password. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +39,7 @@ const AdminLogin = () => {
           </h1>
           <p className="text-gray-500 mt-2">Enter admin password to continue</p>
         </div>
-        
+
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-pink-100">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-2">
@@ -47,23 +47,23 @@ const AdminLogin = () => {
               {error}
             </div>
           )}
-          
+
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Admin Password
               </label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter admin password"
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                onKeyPress={(e) => e.key === "Enter" && handleLogin()}
               />
             </div>
-            
-            <button 
+
+            <button
               onClick={handleLogin}
               disabled={isLoading}
               className="w-full py-3.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-pink-200 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -73,7 +73,9 @@ const AdminLogin = () => {
                   <Loader className="w-5 h-5 animate-spin" />
                   Verifying...
                 </div>
-              ) : 'Access Dashboard'}
+              ) : (
+                "Access Dashboard"
+              )}
             </button>
           </div>
         </div>

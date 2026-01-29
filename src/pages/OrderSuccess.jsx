@@ -13,11 +13,10 @@ export default function OrderSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const location = useLocation();
-const state = location.state ?? {};
+  const state = location.state ?? {};
 
-const orderId = state.orderId;
-const customerName = state.customerName || "Sweet Tooth";
+  const orderId = state.orderId;
+  const customerName = state.customerName || "Sweet Tooth";
 
   useEffect(() => {
     if (!orderId) {
@@ -30,7 +29,7 @@ const customerName = state.customerName || "Sweet Tooth";
 
   const whatsappNumber = "2348156686247";
   const whatsappMessage = encodeURIComponent(
-    `Hello Miwa! 🎂\n\nMy name is ${customerName}.\nMy Order ID is: ${orderId}\n\nI've completed my payment and uploaded the receipt. Please confirm my order!`
+    `Hello Miwa! 🎂\n\nMy name is ${customerName}.\nMy Order ID is: ${orderId}\n\nI've completed my payment and uploaded the receipt. Please confirm my order!`,
   );
 
   const copyToClipboard = () => {

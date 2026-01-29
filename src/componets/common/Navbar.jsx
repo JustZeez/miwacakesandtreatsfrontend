@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, X, GraduationCap, Star, Cake, Package } from "lucide-react";
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  GraduationCap,
+  Star,
+  Cake,
+  Package,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../../context/CartContext";
 
