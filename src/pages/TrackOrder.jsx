@@ -24,18 +24,15 @@ const TrackOrderForm = () => {
 
     setLoading(true);
 
-    // Encode parameters to handle special characters
     const encodedOrderId = encodeURIComponent(orderId.trim());
     const encodedPhone = encodeURIComponent(phone.trim());
-    
-    // Redirect to tracking results page
+
     navigate(`/tracking/${encodedOrderId}/${encodedPhone}`);
   };
 
   return (
     <div className="min-h-screen pt-28 pb-12 bg-gradient-to-br from-pink-50 via-white to-purple-50">
       <div className="max-w-md mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-10">
           <div className="w-20 h-20 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Package className="w-10 h-10 text-white" />
@@ -48,10 +45,8 @@ const TrackOrderForm = () => {
           </p>
         </div>
 
-        {/* Form */}
         <div className="bg-white rounded-3xl p-8 shadow-xl border border-pink-100">
           <form onSubmit={handleTrackOrder} className="space-y-6">
-            {/* Order ID Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Order ID *
@@ -71,7 +66,6 @@ const TrackOrderForm = () => {
               </div>
             </div>
 
-            {/* Phone Number Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Phone Number *
@@ -103,7 +97,6 @@ const TrackOrderForm = () => {
               </div>
             </div>
 
-            {/* Submit Button - Redirects to Tracking Results */}
             <button
               type="submit"
               disabled={loading}
@@ -123,20 +116,23 @@ const TrackOrderForm = () => {
             </button>
           </form>
 
-          {/* Help Text */}
           <div className="mt-6 pt-6 border-t border-gray-200">
             <div className="bg-blue-50 rounded-xl p-4">
               <p className="text-sm text-blue-700">
-                <span className="font-bold">Note:</span> Both fields are required to track your order. Use the exact Order ID and Phone Number provided during checkout.
+                <span className="font-bold">Note:</span> Both fields are
+                required to track your order. Use the exact Order ID and Phone
+                Number provided during checkout.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Example */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
-            Example Order ID format: <code className="bg-gray-100 px-2 py-1 rounded">1225-290126-AZEEZ-69</code>
+            Example Order ID format:{" "}
+            <code className="bg-gray-100 px-2 py-1 rounded">
+              1225-290126-AZEEZ-69
+            </code>
           </p>
         </div>
       </div>

@@ -49,13 +49,13 @@ export const orderAPI = {
     console.log("Tracking order:", { orderId, phone });
     const encodedOrderId = encodeURIComponent(orderId);
     console.log("Encoded orderId:", encodedOrderId);
-    
+
     return api.get(`/orders/track/${encodedOrderId}`, {
-      params: { phone: phone }
+      params: { phone: phone },
     });
   },
 
-  getOrderDetails: (orderId) => 
+  getOrderDetails: (orderId) =>
     api.get(`/orders/${encodeURIComponent(orderId)}`),
 };
 
