@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search, Package } from "lucide-react";
 import { toast } from "react-toastify";
 
-const TrackOrderForm = () => {
+const TrackOrder = () => {
   const [orderId, setOrderId] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -140,4 +140,4 @@ const TrackOrderForm = () => {
   );
 };
 
-export default TrackOrderForm;
+export default TrackOrder;  
