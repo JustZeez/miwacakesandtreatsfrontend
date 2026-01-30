@@ -1,6 +1,6 @@
 // import React, { useState } from "react";
 // import { products, categories } from "../data/products";
-// import ProductCard from "../componets/cards/ProductCard";
+// import ProductCard from "../components/cards/ProductCard";
 
 // export default function Treats() {
 //   const [activeCategory, setActiveCategory] = useState("All");
@@ -57,7 +57,7 @@
 // }
 import React, { useState } from "react";
 import { products, categories } from "../data/products";
-import ProductCard from "../componets/cards/ProductCard";
+import ProductCard from "../components/cards/ProductCard";
 import { Link } from "react-router-dom";
 import { Package, AlertCircle } from "lucide-react"; // Add this import
 

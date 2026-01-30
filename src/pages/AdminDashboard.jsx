@@ -27,7 +27,7 @@ import {
   AlertCircle as AlertIcon,
 } from "lucide-react";
 import { adminAPI } from "../data/api";
-import OrderDetailsModal from "../componets/common/OrderDetailsModal";
+import OrderDetailsModal from "../components/common/OrderDetailsModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
