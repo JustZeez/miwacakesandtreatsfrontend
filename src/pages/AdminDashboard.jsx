@@ -378,13 +378,28 @@ const AdminDashboard = () => {
             <button className="p-3 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50 text-pink-600 border border-pink-100">
               <Sparkles className="w-6 h-6" />
             </button>
+              <a
+      href="/admin/add-product"
+      className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors hover:text-pink-600 relative group"
+      title="Update Products"
+    >
+      <Package className="w-6 h-6" />
+      <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        Update Products
+      </span>
+    </a>
+    
+    <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
+      <DollarSign className="w-6 h-6" />
+    </button>
+  </nav>
             <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
               <Package className="w-6 h-6" />
             </button>
             <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
               <DollarSign className="w-6 h-6" />
             </button>
-          </nav>
+          
 
           <div className="mt-auto">
             <button

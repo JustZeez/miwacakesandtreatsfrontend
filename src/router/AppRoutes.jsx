@@ -20,6 +20,8 @@ import AdminLogin from "../pages/AdminLogin";
 import ProtectedRoute from "../componets/ProtectedRoute";
 import TrackOrder from "../pages/TrackOrder";
 import TrackingResult from "../pages/Tracking";
+import AddProduct from "../pages/AddProduct";
+import UnavailableProducts from "../pages/UnavailableProducts";
 
 export default function AppRoutes() {
   return (
@@ -40,8 +42,10 @@ export default function AppRoutes() {
           <Route path="/training" element={<Training />} />
           <Route path="/trackorder" element={<TrackOrder />} />
           <Route path="/trackingresult" element={<TrackingResult />} />
+          <Route path="/unavailable" element={<UnavailableProducts />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>
+          <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>
+          <Route path="/admin/addproduct" element={<ProtectedRoute><AddProduct /></ProtectedRoute>}/>
         </Routes>
       </main>
       <FloatingWhatsApp />
