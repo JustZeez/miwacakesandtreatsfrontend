@@ -8,11 +8,11 @@ export default {
     extend: {
       colors: {
         brand: {
-          pink: "#FFF0F5",    // Soft Background
-          rose: "#D63384",    // Primary Pink
-          gold: "#C5A059",    // Accents
-          cream: "#FCF9F1",   // Page Background
-          dark: "#2D1B1E",    // Chocolate Text
+          pink: "#FFF0F5",    
+          rose: "#D63384",    
+          gold: "#C5A059",    
+          cream: "#FCF9F1",   
+          dark: "#2D1B1E",    
         },
       },
       fontFamily: {

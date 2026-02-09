@@ -1,25 +1,26 @@
 @import 'primeicons/primeicons.css';
 
-/* 2. Tailwind CSS v4 import */
-@import "tailwindcss";
 
-/* 3. @theme configuration */
-@theme {
-  --color-brand-pink: #FFF0F5;
-  --color-brand-rose: #D63384;
-  --color-brand-gold: #C5A059;
-  --color-brand-cream: #FCF9F1;
-  --color-brand-dark: #2D1B1E;
-  
-  --font-display: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* 4. Your custom styles */
 @layer base {
+  :root {
+    --color-brand-pink: #FFF0F5;
+    --color-brand-rose: #D63384;
+    --color-brand-gold: #C5A059;
+    --color-brand-cream: #FCF9F1;
+    --color-brand-dark: #2D1B1E;
+  }
+  
   body {
     background-color: var(--color-brand-cream);
     color: var(--color-brand-dark);
-    font-family: var(--font-body);
+    font-family: "Inter", sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", serif;
   }
 }
