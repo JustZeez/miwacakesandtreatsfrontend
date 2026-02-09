@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, X, Loader, Shield, LogOut } from 'lucide-react';
-import { adminAPI } from '../../data/api';
+import { adminAPI } from '../data/api';
 import { toast } from 'react-toastify';
 
 const AddProduct = () => {

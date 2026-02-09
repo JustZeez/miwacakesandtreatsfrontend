@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Utensils, Gift, Coffee } from "lucide-react";
 import Review from "../components/cards/Review";
-import heroImage from "../../public/images/hero2.jpg";
+// import heroImage from "../../public/images/hero2.jpg";
 export default function Home() {
   return (
     <div className="overflow-hidden">
@@ -36,10 +36,11 @@ export default function Home() {
           <div className="relative">
             <div className="w-full h-[400px] md:h-[600px] bg-brand-rose/10 rounded-[40px] overflow-hidden border-8 border-white shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
               <img
-                src={heroImage}
-                alt="Signature Miwa Cake"
-                className="w-full h-full object-cover"
-              />
+  src="/images/hero2.jpg"
+  alt="Signature Miwa Cake"
+  className="w-full h-full object-cover"
+/>
+
             </div>
 
             <div className="absolute -bottom-6 -left-10 bg-brand-gold text-white p-6 rounded-2xl hidden md:block shadow-xl">
