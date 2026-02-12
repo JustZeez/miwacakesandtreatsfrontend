@@ -41,7 +41,8 @@ export default function AppRoutes() {
           <Route path="/privacyandpolicy" element={<PrivacyandPolicy />} />
           <Route path="/training" element={<Training />} />
           <Route path="/trackorder" element={<TrackOrder />} />
-          <Route path="/trackingresult" element={<TrackingResult />} />
+          <Route path="/tracking/:orderId/:phone" element={<TrackingResult />} />
+          <Route path="/coming-soon" element={<UnavailableProducts />} />
           <Route path="/unavailable" element={<UnavailableProducts />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>

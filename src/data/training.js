@@ -1,6 +1,6 @@
 export const trainingData = {
   title: "8 Weeks Beginner & Intermediate Physical Class",
-  startDate: "25th of August 2026",
+  startDate: "15th of March 2026",
   fee: "150,000",
   location: "Behind Lautech teaching hospital, General, Ogbomoso",
   payment: {

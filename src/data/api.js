@@ -38,6 +38,7 @@ api.interceptors.response.use(
   },
 );
 
+// ✅ 1. ORDER API - For customers (YOUR UNAVAILABLE PRODUCTS PAGE NEEDS THIS!)
 export const orderAPI = {
   createOrder: (formData) => {
     return api.post("/orders", formData, {
@@ -48,8 +49,6 @@ export const orderAPI = {
   trackOrder: (orderId, phone) => {
     console.log("Tracking order:", { orderId, phone });
     const encodedOrderId = encodeURIComponent(orderId);
-    console.log("Encoded orderId:", encodedOrderId);
-
     return api.get(`/orders/track/${encodedOrderId}`, {
       params: { phone: phone },
     });
@@ -57,29 +56,27 @@ export const orderAPI = {
 
   getOrderDetails: (orderId) =>
     api.get(`/orders/${encodeURIComponent(orderId)}`),
+
+  // ✅ THIS IS WHAT YOUR COMING SOON PAGE NEEDS!
+  getProducts: (queryParams = '') => {
+    return api.get(`/products${queryParams}`);
+  },
 };
 
+// ✅ 2. ADMIN API - For admin dashboard
 export const adminAPI = {
   getDashboardStats: () => api.get("/admin/dashboard-stats"),
-
   getAllOrders: () => api.get("/admin/orders"),
-
   updateOrderStatus: (orderId, status) =>
     api.patch(`/admin/orders/${orderId}/status`, { status }),
-
   deleteOrder: (orderId) => api.delete(`/admin/orders/${orderId}`),
-
   getProducts: () => api.get("/products"),
-
   createProduct: (productData) =>
     api.post("/admin/products", productData, {
       headers: { "Content-Type": "multipart/form-data" },
     }),
-
   deleteProduct: (productId) => api.delete(`/admin/products/${productId}`),
-
   login: (password) => api.post("/admin/login", { password }),
-
   logout: () => {
     localStorage.removeItem("adminToken");
   },

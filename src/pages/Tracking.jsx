@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useState } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { orderAPI } from "../data/api";
 import {
   FaUser,
@@ -20,6 +20,7 @@ const TrackingResult = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const progressRef = useRef(null);
 
   useEffect(() => {
     fetchOrderDetails();
@@ -37,6 +38,14 @@ const TrackingResult = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ---------- Status Helpers ----------
+  const statusSteps = ["pending", "confirmed", "preparing", "delivered"];
+
+  const getStatusIndex = (status) => {
+    const index = statusSteps.indexOf(status?.toLowerCase());
+    return index === -1 ? 0 : index;
   };
 
   const getStatusIcon = (status) => {
@@ -65,6 +74,29 @@ const TrackingResult = () => {
     }
   };
 
+  // ---------- Animation: Moving Truck ----------
+  // Calculate left percentage based on status index
+  const truckLeftPosition = () => {
+    const index = getStatusIndex(order?.status);
+    // Spread truck across the 4 steps: 0% -> 33% -> 66% -> 100%
+    return `${(index / (statusSteps.length - 1)) * 100}%`;
+  };
+
+  // ---------- Format Date Safely ----------
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "N/A";
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  // ---------- Loading State ----------
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center">
@@ -76,6 +108,7 @@ const TrackingResult = () => {
     );
   }
 
+  // ---------- Error State ----------
   if (error || !order) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-4">
@@ -106,6 +139,7 @@ const TrackingResult = () => {
     );
   }
 
+  // ---------- Main Render ----------
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -119,56 +153,79 @@ const TrackingResult = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
+          {/* Left Column - Status & Items */}
           <div className="md:col-span-2 space-y-6">
+            {/* ---------- Order Status with Moving Truck Animation ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <FaBox className="text-pink-500" />
+                  <FaTruck className="text-pink-500" />
                   Order Status
                 </h2>
                 <span
-                  className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}
+                  className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusColor(
+                    order.status
+                  )}`}
                 >
                   {order.status?.toUpperCase() || "PENDING"}
                 </span>
               </div>
 
-              <div className="relative pt-8">
-                <div className="absolute left-0 top-0 w-full h-1 bg-gray-200"></div>
+              {/* Progress Bar with Moving Truck */}
+              <div className="relative pt-8 pb-4">
+                {/* Grey background line */}
+                <div className="absolute left-0 top-[26px] w-full h-1 bg-gray-200 rounded-full"></div>
+                
+                {/* Colored progress fill (optional, shows how far) */}
+                <div
+                  className="absolute left-0 top-[26px] h-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full transition-all duration-700"
+                  style={{ width: truckLeftPosition() }}
+                ></div>
 
-                <div className="flex justify-between">
-                  {["pending", "confirmed", "preparing", "delivered"].map(
-                    (step, index) => (
-                      <div
-                        key={step}
-                        className="flex flex-col items-center relative"
-                      >
+                {/* Status dots and labels */}
+                <div className="flex justify-between relative">
+                  {statusSteps.map((step, index) => {
+                    const isReached = index <= getStatusIndex(order.status);
+                    return (
+                      <div key={step} className="flex flex-col items-center">
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center z-10 mb-2 ${
-                            index <= getStatusIndex(order.status)
-                              ? "bg-pink-500 text-white"
-                              : "bg-gray-200 text-gray-400"
+                          className={`w-5 h-5 rounded-full z-10 transition-all duration-300 ${
+                            isReached
+                              ? "bg-pink-500 ring-4 ring-pink-100"
+                              : "bg-gray-300"
                           }`}
-                        >
-                          {getStatusIcon(step)}
-                        </div>
-                        <span className="text-xs font-medium text-gray-600 capitalize">
+                        ></div>
+                        <span className="text-xs font-medium text-gray-600 mt-2 capitalize">
                           {step}
                         </span>
                       </div>
-                    ),
-                  )}
+                    );
+                  })}
+                </div>
+
+                {/* Animated Truck */}
+                <div
+                  className="absolute top-[18px] transition-all duration-700 ease-in-out"
+                  style={{ left: truckLeftPosition() }}
+                >
+                  <div className="relative -translate-x-1/2">
+                    <FaTruck className="text-pink-600 text-2xl drop-shadow-md" />
+                    {/* Small glow effect */}
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-pink-300 rounded-full blur-sm"></div>
+                  </div>
                 </div>
               </div>
             </div>
 
+            {/* ---------- Order Items ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaShoppingCart className="text-pink-500" />
                 Order Items
               </h2>
               <div className="space-y-4">
-                {order.items?.map((item, index) => (
+                {/* Use cartItems (backend field) */}
+                {(order.cartItems || []).map((item, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -184,6 +241,9 @@ const TrackingResult = () => {
                         <p className="text-sm text-gray-600">
                           Quantity: {item.quantity}
                         </p>
+                        {item.size && (
+                          <p className="text-xs text-gray-500">Size: {item.size}</p>
+                        )}
                       </div>
                     </div>
                     <div className="text-right">
@@ -211,7 +271,9 @@ const TrackingResult = () => {
             </div>
           </div>
 
+          {/* Right Column - Customer & Order Info */}
           <div className="space-y-6">
+            {/* ---------- Customer Details ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaUser className="text-pink-500" />
@@ -241,13 +303,16 @@ const TrackingResult = () => {
                   </div>
                 </div>
 
+                {/* ✅ EMAIL - fixed to show customerEmail */}
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                     <FaEnvelope className="text-green-500" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Email Address</p>
-                    <p className="font-semibold text-gray-800">{order.email}</p>
+                    <p className="font-semibold text-gray-800">
+                      {order.customerEmail || order.email || "N/A"}
+                    </p>
                   </div>
                 </div>
 
@@ -265,6 +330,7 @@ const TrackingResult = () => {
               </div>
             </div>
 
+            {/* ---------- Order Information ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaBox className="text-pink-500" />
@@ -276,40 +342,57 @@ const TrackingResult = () => {
                   <span className="text-gray-600">Order ID:</span>
                   <span className="font-semibold">{order.orderId}</span>
                 </div>
+                
+                {/* ✅ DATE - fixed with fallback */}
                 <div className="flex justify-between">
                   <span className="text-gray-600">Order Date:</span>
                   <span className="font-semibold">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                    {formatDate(order.createdAt || order.orderDate)}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Payment Status:</span>
-                  <span
-                    className={`font-semibold ${order.paymentStatus === "paid" ? "text-green-600" : "text-yellow-600"}`}
-                  >
-                    {order.paymentStatus?.toUpperCase()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Delivery Type:</span>
-                  <span className="font-semibold capitalize">
-                    {order.deliveryType}
-                  </span>
-                </div>
+
+                {/* ✅ Optionally show payment status and delivery type if available */}
+                {order.paymentStatus && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Payment Status:</span>
+                    <span
+                      className={`font-semibold ${
+                        order.paymentStatus === "paid"
+                          ? "text-green-600"
+                          : "text-yellow-600"
+                      }`}
+                    >
+                      {order.paymentStatus.toUpperCase()}
+                    </span>
+                  </div>
+                )}
+
+                {order.deliveryType && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Delivery Type:</span>
+                    <span className="font-semibold capitalize">
+                      {order.deliveryType}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
+            {/* ---------- Help Card ---------- */}
             <div className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl shadow-lg p-6">
               <h3 className="text-white font-bold text-lg mb-4">Need Help?</h3>
               <p className="text-white text-sm mb-6">
                 Questions about your order? Our support team is here to help!
               </p>
               <div className="space-y-3">
-                <button className="w-full bg-white text-pink-600 py-3 rounded-xl font-semibold hover:bg-gray-100 transition duration-300">
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="w-full bg-white text-pink-600 py-3 rounded-xl font-semibold hover:bg-gray-100 transition duration-300"
+                >
                   Contact Support
                 </button>
                 <button
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/treats")}
                   className="w-full border border-white text-white py-3 rounded-xl font-semibold hover:bg-white/10 transition duration-300"
                 >
                   Continue Shopping
@@ -321,11 +404,6 @@ const TrackingResult = () => {
       </div>
     </div>
   );
-};
-
-const getStatusIndex = (status) => {
-  const statuses = ["pending", "confirmed", "preparing", "delivered"];
-  return statuses.indexOf(status?.toLowerCase()) || 0;
 };
 
 export default TrackingResult;

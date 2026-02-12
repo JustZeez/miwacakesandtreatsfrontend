@@ -40,10 +40,7 @@ export default function Training() {
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-600 to-pink-500 text-white rounded-full font-bold text-sm mb-6 animate-bounce shadow-lg shadow-rose-500/25">
             <Sparkles size={16} />
             <span>NEXT SESSION STARTS: {trainingData.startDate}</span>
-            <p>
-              Pls Note that The training date is tentative and subject to
-              change. Final date will be confirmed soon
-            </p>
+
           </div>
 
           <h1 className="text-5xl md:text-7xl font-display text-gray-900 mb-6 leading-tight">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate , useState} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Search, Package } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -75,7 +75,7 @@ const TrackOrder = () => {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="e.g., 09020244367"
+                  placeholder="e.g., 08156686247"
                   className="w-full px-5 py-3 pl-12 rounded-xl border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition"
                   required
                 />
@@ -131,7 +131,7 @@ const TrackOrder = () => {
           <p className="text-sm text-gray-500">
             Example Order ID format:{" "}
             <code className="bg-gray-100 px-2 py-1 rounded">
-              1225-290126-AZEEZ-69
+              1225-290126-MIWA-69
             </code>
           </p>
         </div>

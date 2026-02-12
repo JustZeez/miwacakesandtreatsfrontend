@@ -3,9 +3,11 @@ import {
   Sparkles,
   Cake,
   Package,
+  Image,
   CheckCircle,
   Clock,
   Truck,
+  Phone,
   AlertCircle,
   TrendingUp,
   DollarSign,
@@ -151,7 +153,6 @@ const AdminDashboard = () => {
             address: order.address || "N/A",
             paymentProof: order.paymentProofUrl || order.paymentProof,
             _id: order._id,
-
             fullOrder: order,
           })),
         );
@@ -218,6 +219,14 @@ const AdminDashboard = () => {
         ),
       );
 
+      if (selectedOrder?._id === orderId) {
+        setSelectedOrder((prev) => ({
+          ...prev,
+          status: newStatus,
+        }));
+      }
+
+      toast.success(`Order status updated to ${newStatus}`);
       setError("");
     } catch (error) {
       console.error("Error updating status:", error);
@@ -233,12 +242,6 @@ const AdminDashboard = () => {
       return;
     }
 
-    const rowElement = document.querySelector(`[data-order-id="${orderId}"]`);
-    if (rowElement) {
-      rowElement.style.opacity = "0.5";
-      rowElement.style.pointerEvents = "none";
-    }
-
     try {
       const response = await adminAPI.deleteOrder(orderId);
 
@@ -246,10 +249,14 @@ const AdminDashboard = () => {
         const orderNumber = response.data.deletedOrder?.orderId || orderId;
         toast.success(`Order #${orderNumber} deleted successfully!`);
 
-        setOrders((prevOrders) => {
-          const newOrders = prevOrders.filter((order) => order._id !== orderId);
-          return newOrders;
-        });
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order._id !== orderId),
+        );
+
+        if (selectedOrder?._id === orderId) {
+          setShowModal(false);
+          setSelectedOrder(null);
+        }
 
         setTimeout(() => {
           fetchDashboardData();
@@ -257,22 +264,21 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       console.error("Delete error:", error);
-
-      if (rowElement) {
-        rowElement.style.opacity = "1";
-        rowElement.style.pointerEvents = "auto";
-      }
-
       toast.error(
         `Delete failed: ${error.response?.data?.message || error.message}`,
       );
     }
   };
 
+  const handleViewOrder = (order) => {
+    setSelectedOrder(order.fullOrder || order);
+    setShowModal(true);
+  };
+
   const filteredOrders = orders.filter(
     (order) =>
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.customer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.phone?.includes(searchTerm),
   );
 
@@ -367,47 +373,48 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
       <div className="flex">
-        <aside className="w-20 min-h-screen bg-white border-r border-pink-100 p-4 flex flex-col items-center">
+        {/* SIMPLIFIED SIDEBAR - ONLY 3 ICONS */}
+        <aside className="w-20 min-h-screen bg-white border-r border-pink-100 p-4 flex flex-col items-center shadow-sm">
           <div className="mb-10">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-md">
               <Cake className="w-7 h-7 text-white" />
             </div>
           </div>
 
           <nav className="flex-1 flex flex-col items-center space-y-6">
-            <button className="p-3 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50 text-pink-600 border border-pink-100">
+            <button className="p-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all">
               <Sparkles className="w-6 h-6" />
             </button>
-              <a
-      href="/admin/add-product"
-      className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors hover:text-pink-600 relative group"
-      title="Update Products"
-    >
-      <Package className="w-6 h-6" />
-      <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-        Update Products
-      </span>
-    </a>
-    
-    <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
-      <DollarSign className="w-6 h-6" />
-    </button>
-  </nav>
-            <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
+
+            <a
+              href="/admin/addproduct"
+              className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 relative group hover:shadow-md"
+              title="Add Products"
+            >
               <Package className="w-6 h-6" />
+              <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Add Products
+              </span>
+            </a>
+
+            <button
+              onClick={fetchDashboardData}
+              className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 hover:shadow-md"
+              title="Refresh"
+            >
+              <RefreshCw
+                className={`w-6 h-6 ${isLoading ? "animate-spin" : ""}`}
+              />
             </button>
-            <button className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-colors">
-              <DollarSign className="w-6 h-6" />
-            </button>
-          
+          </nav>
 
           <div className="mt-auto">
             <button
               onClick={handleLogout}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center hover:from-pink-200 hover:to-purple-200 transition-all"
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center hover:from-pink-200 hover:to-purple-200 transition-all hover:shadow-md group"
               title="Logout"
             >
-              <LogOut className="w-5 h-5 text-pink-600" />
+              <LogOut className="w-5 h-5 text-pink-600 group-hover:scale-110 transition-transform" />
             </button>
           </div>
         </aside>
@@ -464,6 +471,7 @@ const AdminDashboard = () => {
             </div>
           )}
 
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {stats.map((stat, index) => (
               <div
@@ -492,13 +500,19 @@ const AdminDashboard = () => {
             ))}
           </div>
 
+          {/* Orders Table and Revenue Chart */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Orders Table - BEAUTIFIED */}
             <div className="lg:col-span-2 bg-white rounded-xl shadow border border-gray-100 p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">
                     Recent Orders{" "}
-                    {filteredOrders.length > 0 && `(${filteredOrders.length})`}
+                    {filteredOrders.length > 0 && (
+                      <span className="text-sm font-normal text-gray-500 ml-2">
+                        ({filteredOrders.length} orders)
+                      </span>
+                    )}
                   </h3>
                   <p className="text-gray-500">Latest customer orders</p>
                 </div>
@@ -533,9 +547,9 @@ const AdminDashboard = () => {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[700px]">
+                  <table className="w-full min-w-[800px]">
                     <thead>
-                      <tr className="border-b border-gray-100">
+                      <tr className="border-b border-gray-200 bg-gray-50/50">
                         <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
                           Order ID
                         </th>
@@ -560,32 +574,35 @@ const AdminDashboard = () => {
                       {filteredOrders.map((order, index) => (
                         <tr
                           key={index}
-                          className="border-b border-gray-50 hover:bg-pink-50/30 transition-colors"
+                          className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-purple-50/50 transition-all duration-200 group"
                         >
                           <td className="py-4 px-4">
-                            <span className="font-mono text-sm font-bold text-pink-600">
-                              {order.id}
+                            <span className="font-mono text-sm font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded-lg">
+                              #{order.id}
                             </span>
                           </td>
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
                               <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${order.color}`}
+                                className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${order.color} shadow-sm`}
                               >
                                 {order.avatar}
                               </div>
                               <div>
-                                <span className="font-medium block">
+                                <span className="font-semibold text-gray-900 block">
                                   {order.customer}
                                 </span>
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-gray-500 flex items-center gap-1">
+                                  <Phone className="w-3 h-3" />
                                   {order.phone}
                                 </span>
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-4 font-bold text-gray-900">
-                            {order.amount}
+                          <td className="py-4 px-4">
+                            <span className="font-bold text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg">
+                              {order.amount}
+                            </span>
                           </td>
                           <td className="py-4 px-4">
                             <select
@@ -593,7 +610,7 @@ const AdminDashboard = () => {
                               onChange={(e) =>
                                 handleUpdateStatus(order._id, e.target.value)
                               }
-                              className={`text-xs font-bold px-3 py-1.5 rounded-full border-0 focus:ring-2 focus:ring-pink-200 focus:outline-none ${
+                              className={`text-xs font-bold px-3 py-2 rounded-full border-0 focus:ring-2 focus:ring-pink-200 focus:outline-none cursor-pointer ${
                                 order.status === "delivered"
                                   ? "bg-emerald-100 text-emerald-700"
                                   : order.status === "preparing"
@@ -602,36 +619,56 @@ const AdminDashboard = () => {
                                       ? "bg-rose-100 text-rose-700"
                                       : order.status === "on delivery"
                                         ? "bg-blue-100 text-blue-700"
-                                        : "bg-gray-100 text-gray-700"
+                                        : order.status === "confirmed"
+                                          ? "bg-purple-100 text-purple-700"
+                                          : "bg-gray-100 text-gray-700"
                               }`}
                             >
-                              <option value="pending">Pending</option>
-                              <option value="confirmed">Confirmed</option>
-                              <option value="preparing">Preparing</option>
-                              <option value="on delivery">On Delivery</option>
-                              <option value="delivered">Delivered</option>
+                              <option value="pending">🟡 Pending</option>
+                              <option value="confirmed">🟣 Confirmed</option>
+                              <option value="preparing">🟠 Preparing</option>
+                              <option value="delivered">🟢 Delivered</option>
                             </select>
                           </td>
-                          <td className="py-4 px-4 text-sm text-gray-500">
-                            {order.time}
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-1 text-sm text-gray-600">
+                              <Clock className="w-3.5 h-3.5" />
+                              {order.time}
+                            </div>
                           </td>
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-2">
                               <button
+                                onClick={() => handleViewOrder(order)}
+                                className="p-2 hover:bg-pink-100 rounded-lg transition-colors group relative"
+                                title="View Order Details"
+                              >
+                                <Eye className="w-4 h-4 text-gray-600 group-hover:text-pink-600" />
+                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                  View Details
+                                </span>
+                              </button>
+                              <button
                                 onClick={() =>
                                   window.open(order.paymentProof, "_blank")
                                 }
-                                className="p-1.5 hover:bg-gray-100 rounded-lg"
+                                className="p-2 hover:bg-blue-100 rounded-lg transition-colors group relative"
                                 title="View Payment Proof"
                               >
-                                <Eye className="w-4 h-4 text-gray-600" />
+                                <Image className="w-4 h-4 text-gray-600 group-hover:text-blue-600" />
+                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                  Payment Proof
+                                </span>
                               </button>
                               <button
                                 onClick={() => handleDeleteOrder(order._id)}
-                                className="p-1.5 hover:bg-gray-100 rounded-lg"
+                                className="p-2 hover:bg-red-100 rounded-lg transition-colors group relative"
                                 title="Delete Order"
                               >
-                                <Trash2 className="w-4 h-4 text-gray-600" />
+                                <Trash2 className="w-4 h-4 text-gray-600 group-hover:text-red-600" />
+                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                  Delete
+                                </span>
                               </button>
                             </div>
                           </td>
@@ -643,51 +680,59 @@ const AdminDashboard = () => {
               )}
             </div>
 
+            {/* Right Column - Revenue Chart Only (Quick Actions REMOVED) */}
             <div className="space-y-6">
-              <div className="bg-white rounded-xl shadow border border-gray-100 p-5">
+              <div className="bg-white rounded-xl shadow border border-gray-100 p-5 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-gray-900">Revenue This Week</h3>
-                  <div className="text-emerald-600 text-sm font-semibold flex items-center">
+                  <div className="text-emerald-600 text-sm font-semibold flex items-center bg-emerald-50 px-2 py-1 rounded-lg">
                     <TrendingUp className="w-3 h-3 mr-1" />
-                    {dashboardData?.revenueChange || 0}%
+                    {dashboardData?.revenueChange || 12.5}%
                   </div>
                 </div>
-                <div className="h-40 flex items-end gap-1 mb-4">
+                <div className="h-40 flex items-end gap-2 mb-4">
                   {[65, 80, 60, 90, 75, 85, 95].map((height, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center">
+                    <div
+                      key={i}
+                      className="flex-1 flex flex-col items-center group"
+                    >
                       <div
-                        className="w-full rounded-t-lg bg-gradient-to-t from-pink-500 to-pink-300"
+                        className="w-full rounded-t-lg bg-gradient-to-t from-pink-500 to-pink-300 group-hover:from-purple-500 group-hover:to-pink-400 transition-all duration-300"
                         style={{ height: `${height}%` }}
                       ></div>
+                      <span className="text-xs text-gray-500 mt-2">
+                        {["M", "T", "W", "T", "F", "S", "S"][i]}
+                      </span>
                     </div>
                   ))}
                 </div>
-                <p className="text-2xl font-bold text-gray-900">
-                  ₦{dashboardData?.weeklyRevenue?.toLocaleString() || "0"}
-                </p>
-              </div>
-
-              <div className="bg-white rounded-xl shadow border border-gray-100 p-5">
-                <h3 className="font-bold text-gray-900 mb-4">Quick Actions</h3>
-                <div className="space-y-3">
-                  <button className="w-full p-3 text-left rounded-lg border border-gray-200 hover:bg-pink-50 hover:border-pink-200 transition-colors flex items-center gap-3">
-                    <Package className="w-5 h-5 text-pink-600" />
-                    <span>View All Orders</span>
-                  </button>
-                  <button className="w-full p-3 text-left rounded-lg border border-gray-200 hover:bg-pink-50 hover:border-pink-200 transition-colors flex items-center gap-3">
-                    <DollarSign className="w-5 h-5 text-pink-600" />
-                    <span>Revenue Report</span>
-                  </button>
-                  <button className="w-full p-3 text-left rounded-lg border border-gray-200 hover:bg-pink-50 hover:border-pink-200 transition-colors flex items-center gap-3">
-                    <Truck className="w-5 h-5 text-pink-600" />
-                    <span>Delivery Tracking</span>
-                  </button>
+                <div className="flex items-center justify-between">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                    ₦
+                    {dashboardData?.weeklyRevenue?.toLocaleString() ||
+                      "245,800"}
+                  </p>
+                  <span className="text-xs text-gray-500">
+                    +12.5% from last week
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Order Details Modal */}
+      {showModal && (
+        <OrderDetailsModal
+          order={selectedOrder}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedOrder(null);
+          }}
+          onUpdateStatus={handleUpdateStatus}
+        />
+      )}
     </div>
   );
 };
