@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Utensils, Gift, Coffee } from "lucide-react";
 import Review from "../components/cards/Review";
-// import heroImage from "../../public/images/hero2.jpg";
 export default function Home() {
   return (
     <div className="overflow-hidden">

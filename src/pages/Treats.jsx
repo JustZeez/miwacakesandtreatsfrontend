@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { products, categories } from "../data/products";
 import ProductCard from "../components/cards/ProductCard";
@@ -18,7 +17,8 @@ export default function Treats() {
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
       const scrollAmount = 200;
-      scrollContainerRef.current.scrollLeft += direction === 'left' ? -scrollAmount : scrollAmount;
+      scrollContainerRef.current.scrollLeft +=
+        direction === "left" ? -scrollAmount : scrollAmount;
     }
   };
 
@@ -34,25 +34,22 @@ export default function Treats() {
         </p>
       </div>
 
-      {/* Scrollable Navbar with Vertical Lines */}
       <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-md py-4 rounded-2xl shadow-sm mb-12">
         <div className="relative flex items-center">
-          {/* Left Scroll Button */}
-          <button 
-            onClick={() => scroll('left')}
+          <button
+            onClick={() => scroll("left")}
             className="absolute left-0 z-10 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition ml-1"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-5 h-5 text-brand-rose" />
           </button>
 
-          {/* Scrollable Categories Container */}
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto scrollbar-hide gap-1 mx-12 px-2"
-            style={{ 
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch'
+            style={{
+              scrollBehavior: "smooth",
+              WebkitOverflowScrolling: "touch",
             }}
           >
             {categories.map((cat, index) => (
@@ -68,7 +65,7 @@ export default function Treats() {
                 >
                   {cat}
                 </button>
-                {/* Vertical line separator - not after last item */}
+
                 {index < categories.length - 1 && (
                   <div className="flex items-center">
                     <div className="w-px h-6 bg-gradient-to-b from-transparent via-brand-rose/30 to-transparent mx-1"></div>
@@ -76,13 +73,11 @@ export default function Treats() {
                 )}
               </React.Fragment>
             ))}
-            
-            {/* Vertical line before Out of Stock */}
+
             <div className="flex items-center mx-2">
               <div className="w-px h-8 bg-gradient-to-b from-transparent via-amber-500/50 to-transparent"></div>
             </div>
-            
-            {/* Out of Stock Link */}
+
             <Link
               to="/coming-soon"
               className="inline-flex items-center gap-2 px-6 py-2 rounded-full border-2 transition-all duration-300 font-medium whitespace-nowrap flex-shrink-0 border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white bg-amber-50 hover:scale-105 hover:shadow-lg"
@@ -92,9 +87,8 @@ export default function Treats() {
             </Link>
           </div>
 
-          {/* Right Scroll Button */}
-          <button 
-            onClick={() => scroll('right')}
+          <button
+            onClick={() => scroll("right")}
             className="absolute right-0 z-10 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition mr-1"
             aria-label="Scroll right"
           >
@@ -117,7 +111,6 @@ export default function Treats() {
         </div>
       )}
 
-      {/* Add this CSS to hide scrollbar but keep functionality */}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

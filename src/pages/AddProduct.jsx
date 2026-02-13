@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Upload, X, Loader, Shield, LogOut } from 'lucide-react';
-import { adminAPI } from '../data/api';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Upload, X, Loader, Shield, LogOut } from "lucide-react";
+import { adminAPI } from "../data/api";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
-  
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -20,11 +20,10 @@ const AddProduct = () => {
   }, []);
 
   const checkAuth = () => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     if (!token) {
-      // Redirect to login
-      toast.error('Please login first');
-      navigate('/admin/login');
+      toast.error("Please login first");
+      navigate("/admin/login");
     } else {
       setIsAuthenticated(true);
     }
@@ -32,16 +31,16 @@ const AddProduct = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    toast.success('Logged out successfully');
-    navigate('/admin/login');
+    localStorage.removeItem("adminToken");
+    toast.success("Logged out successfully");
+    navigate("/admin/login");
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      // Create preview
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
@@ -52,34 +51,34 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!name || !price || !image) {
-      toast.error('Please fill all fields and select an image');
+      toast.error("Please fill all fields and select an image");
       return;
     }
 
     setLoading(true);
-    
+
     try {
       const formData = new FormData();
-      formData.append('name', name);
-      formData.append('price', price);
-      formData.append('image', image);
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("image", image);
 
       await adminAPI.createProduct(formData);
-      
-      toast.success('Product added successfully!');
-      // Reset form
-      setName('');
-      setPrice('');
+
+      toast.success("Product added successfully!");
+
+      setName("");
+      setPrice("");
       setImage(null);
       setPreview(null);
     } catch (error) {
       if (error.response?.status === 401) {
-        toast.error('Session expired. Please login again.');
+        toast.error("Session expired. Please login again.");
         handleLogout();
       } else {
-        toast.error('Failed to add product');
+        toast.error("Failed to add product");
       }
     } finally {
       setLoading(false);
@@ -107,10 +106,14 @@ const AddProduct = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-white">
         <div className="text-center">
           <Shield className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
-          <p className="text-gray-600 mb-6">You need to login as admin to access this page</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600 mb-6">
+            You need to login as admin to access this page
+          </p>
           <button
-            onClick={() => navigate('/admin/login')}
+            onClick={() => navigate("/admin/login")}
             className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg"
           >
             Go to Login
@@ -122,7 +125,6 @@ const AddProduct = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-white">
-      {/* Admin Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
@@ -135,10 +137,10 @@ const AddProduct = () => {
                 <p className="text-sm text-gray-600">Product Management</p>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="px-4 py-2 text-gray-700 hover:text-gray-900"
               >
                 View Site
@@ -155,25 +157,24 @@ const AddProduct = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="p-6">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Add Unavailable Products</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Add Unavailable Products
+            </h1>
             <p className="text-gray-600 mt-2">
               Upload product images to show customers what's coming soon
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Left: Upload Form */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 Upload Product Details
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Image Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Product Image
@@ -196,7 +197,7 @@ const AddProduct = () => {
                       </p>
                     </label>
                   </div>
-                  
+
                   {preview && (
                     <div className="mt-4 relative">
                       <img
@@ -215,7 +216,6 @@ const AddProduct = () => {
                   )}
                 </div>
 
-                {/* Product Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Product Name
@@ -230,7 +230,6 @@ const AddProduct = () => {
                   />
                 </div>
 
-                {/* Price */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Price (₦)
@@ -246,7 +245,6 @@ const AddProduct = () => {
                   />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -258,22 +256,19 @@ const AddProduct = () => {
                       Uploading...
                     </div>
                   ) : (
-                    'Add Product'
+                    "Add Product"
                   )}
                 </button>
               </form>
             </div>
 
-            {/* Right: Preview */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 How It Will Look
               </h2>
 
               <div className="space-y-6">
-                {/* Preview Card */}
                 <div className="border border-gray-200 rounded-2xl overflow-hidden">
-                  {/* Product Image */}
                   <div className="h-64 bg-gray-100 flex items-center justify-center">
                     {preview ? (
                       <img
@@ -289,7 +284,6 @@ const AddProduct = () => {
                     )}
                   </div>
 
-                  {/* Product Info */}
                   <div className="p-6">
                     {name ? (
                       <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -307,17 +301,19 @@ const AddProduct = () => {
                       <div className="h-8 bg-gray-200 rounded w-24 mb-3"></div>
                     )}
 
-                    {/* Unavailable Badge */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-full">
                       <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-                      <span className="font-medium">Not Available Right Now</span>
+                      <span className="font-medium">
+                        Not Available Right Now
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Instructions */}
                 <div className="bg-blue-50 rounded-xl p-4">
-                  <h4 className="font-bold text-blue-800 mb-2">How it works:</h4>
+                  <h4 className="font-bold text-blue-800 mb-2">
+                    How it works:
+                  </h4>
                   <ul className="text-sm text-blue-700 space-y-1">
                     <li>• Upload product photos from your gallery</li>
                     <li>• Add product name and price</li>

@@ -38,7 +38,6 @@ api.interceptors.response.use(
   },
 );
 
-// ✅ 1. ORDER API - For customers (YOUR UNAVAILABLE PRODUCTS PAGE NEEDS THIS!)
 export const orderAPI = {
   createOrder: (formData) => {
     return api.post("/orders", formData, {
@@ -57,13 +56,11 @@ export const orderAPI = {
   getOrderDetails: (orderId) =>
     api.get(`/orders/${encodeURIComponent(orderId)}`),
 
-  // ✅ THIS IS WHAT YOUR COMING SOON PAGE NEEDS!
-  getProducts: (queryParams = '') => {
+  getProducts: (queryParams = "") => {
     return api.get(`/products${queryParams}`);
   },
 };
 
-// ✅ 2. ADMIN API - For admin dashboard
 export const adminAPI = {
   getDashboardStats: () => api.get("/admin/dashboard-stats"),
   getAllOrders: () => api.get("/admin/orders"),

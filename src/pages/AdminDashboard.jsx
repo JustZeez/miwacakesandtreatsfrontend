@@ -372,81 +372,78 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
-      <div className="flex">
-        {/* SIMPLIFIED SIDEBAR - ONLY 3 ICONS */}
-        <aside className="w-20 min-h-screen bg-white border-r border-pink-100 p-4 flex flex-col items-center shadow-sm">
-          <div className="mb-10">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-md">
-              <Cake className="w-7 h-7 text-white" />
+      <div className="flex flex-col md:flex-row min-h-screen pt-20">
+        <aside className="w-full md:w-20 bg-white border-b md:border-b-0 md:border-r border-pink-100 p-3 md:p-4 flex flex-row md:flex-col items-center justify-between md:justify-start shadow-sm">
+          <div className="md:mb-10">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-md">
+              <Cake className="w-6 h-6 md:w-7 md:h-7 text-white" />
             </div>
           </div>
 
-          <nav className="flex-1 flex flex-col items-center space-y-6">
-            <button className="p-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all">
-              <Sparkles className="w-6 h-6" />
+          <nav className="flex flex-row md:flex-col items-center space-x-4 md:space-x-0 md:space-y-6">
+            <button className="p-2 md:p-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all">
+              <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
             </button>
 
             <a
               href="/admin/addproduct"
-              className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 relative group hover:shadow-md"
+              className="p-2 md:p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 relative group hover:shadow-md"
               title="Add Products"
             >
-              <Package className="w-6 h-6" />
-              <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              <Package className="w-5 h-5 md:w-6 md:h-6" />
+              <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden md:block">
                 Add Products
               </span>
             </a>
 
             <button
               onClick={fetchDashboardData}
-              className="p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 hover:shadow-md"
+              className="p-2 md:p-3 rounded-xl text-gray-500 hover:bg-pink-50 transition-all hover:text-pink-600 hover:shadow-md"
               title="Refresh"
             >
               <RefreshCw
-                className={`w-6 h-6 ${isLoading ? "animate-spin" : ""}`}
+                className={`w-5 h-5 md:w-6 md:h-6 ${isLoading ? "animate-spin" : ""}`}
               />
             </button>
           </nav>
 
-          <div className="mt-auto">
+          <div className="md:mt-auto">
             <button
               onClick={handleLogout}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center hover:from-pink-200 hover:to-purple-200 transition-all hover:shadow-md group"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center hover:from-pink-200 hover:to-purple-200 transition-all hover:shadow-md group"
               title="Logout"
             >
-              <LogOut className="w-5 h-5 text-pink-600 group-hover:scale-110 transition-transform" />
+              <LogOut className="w-4 h-4 md:w-5 md:h-5 text-pink-600 group-hover:scale-110 transition-transform" />
             </button>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          {/* Header */}
-          <header className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+        <main className="flex-1 p-4 md:p-6">
+          <header className="flex flex-col md:flex-row md:items-center justify-between mb-6 md:mb-8">
+            <div className="mb-4 md:mb-0">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
                 Miwa Dashboard
               </h1>
-              <p className="text-gray-500">
+              <p className="text-sm md:text-base text-gray-500">
                 Manage orders and track your bakery
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative">
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search orders..."
-                  className="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-200 w-64"
+                  className="w-full sm:w-64 pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-200 text-sm"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               </div>
 
               <button
                 onClick={fetchDashboardData}
-                className="p-2.5 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                className="p-2.5 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors self-start sm:self-auto"
                 title="Refresh"
               >
                 <RefreshCw
@@ -471,42 +468,39 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow border border-gray-100 p-5 hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl shadow border border-gray-100 p-4 md:p-5 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
-                    className={`p-3 rounded-lg ${stat.color} text-white shadow-sm`}
+                    className={`p-2 md:p-3 rounded-lg ${stat.color} text-white shadow-sm`}
                   >
                     {stat.icon}
                   </div>
                   <div
-                    className={`text-sm font-semibold ${stat.trend === "up" ? "text-emerald-600" : "text-amber-600"}`}
+                    className={`text-xs md:text-sm font-semibold ${stat.trend === "up" ? "text-emerald-600" : "text-amber-600"}`}
                   >
                     {stat.change}
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
                   {stat.value}
                 </h3>
-                <p className="text-gray-500 text-sm font-medium">
+                <p className="text-gray-500 text-xs md:text-sm font-medium">
                   {stat.title}
                 </p>
               </div>
             ))}
           </div>
 
-          {/* Orders Table and Revenue Chart */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Orders Table - BEAUTIFIED */}
-            <div className="lg:col-span-2 bg-white rounded-xl shadow border border-gray-100 p-6">
-              <div className="flex items-center justify-between mb-6">
+            <div className="lg:col-span-2 bg-white rounded-xl shadow border border-gray-100 p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900">
                     Recent Orders{" "}
                     {filteredOrders.length > 0 && (
                       <span className="text-sm font-normal text-gray-500 ml-2">
@@ -514,11 +508,13 @@ const AdminDashboard = () => {
                       </span>
                     )}
                   </h3>
-                  <p className="text-gray-500">Latest customer orders</p>
+                  <p className="text-sm md:text-base text-gray-500">
+                    Latest customer orders
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap gap-2">
                   <select
-                    className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                    className="px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-200 text-sm"
                     defaultValue=""
                   >
                     <option value="">All Status</option>
@@ -528,7 +524,7 @@ const AdminDashboard = () => {
                     <option value="on delivery">On Delivery</option>
                     <option value="delivered">Delivered</option>
                   </select>
-                  <button className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+                  <button className="px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2 text-sm">
                     <Download className="w-4 h-4" />
                     Export
                   </button>
@@ -546,26 +542,26 @@ const AdminDashboard = () => {
                   </p>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[800px]">
+                <div className="overflow-x-auto -mx-4 md:mx-0 px-4 md:px-0">
+                  <table className="w-full min-w-[700px] md:min-w-full">
                     <thead>
                       <tr className="border-b border-gray-200 bg-gray-50/50">
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Order ID
                         </th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Customer
                         </th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Amount
                         </th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Status
                         </th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Time
                         </th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                        <th className="text-left py-3 px-3 text-xs md:text-sm font-semibold text-gray-600">
                           Actions
                         </th>
                       </tr>
@@ -576,20 +572,20 @@ const AdminDashboard = () => {
                           key={index}
                           className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-purple-50/50 transition-all duration-200 group"
                         >
-                          <td className="py-4 px-4">
-                            <span className="font-mono text-sm font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded-lg">
+                          <td className="py-3 px-3">
+                            <span className="font-mono text-xs md:text-sm font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded-lg">
                               #{order.id}
                             </span>
                           </td>
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-3">
+                          <td className="py-3 px-3">
+                            <div className="flex items-center gap-2">
                               <div
-                                className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${order.color} shadow-sm`}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${order.color} shadow-sm`}
                               >
                                 {order.avatar}
                               </div>
                               <div>
-                                <span className="font-semibold text-gray-900 block">
+                                <span className="font-semibold text-gray-900 block text-sm">
                                   {order.customer}
                                 </span>
                                 <span className="text-xs text-gray-500 flex items-center gap-1">
@@ -599,18 +595,18 @@ const AdminDashboard = () => {
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-4">
-                            <span className="font-bold text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg">
+                          <td className="py-3 px-3">
+                            <span className="font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-lg text-sm">
                               {order.amount}
                             </span>
                           </td>
-                          <td className="py-4 px-4">
+                          <td className="py-3 px-3">
                             <select
                               value={order.status}
                               onChange={(e) =>
                                 handleUpdateStatus(order._id, e.target.value)
                               }
-                              className={`text-xs font-bold px-3 py-2 rounded-full border-0 focus:ring-2 focus:ring-pink-200 focus:outline-none cursor-pointer ${
+                              className={`text-xs font-bold px-2 py-1 rounded-full border-0 focus:ring-2 focus:ring-pink-200 focus:outline-none cursor-pointer ${
                                 order.status === "delivered"
                                   ? "bg-emerald-100 text-emerald-700"
                                   : order.status === "preparing"
@@ -630,45 +626,36 @@ const AdminDashboard = () => {
                               <option value="delivered">🟢 Delivered</option>
                             </select>
                           </td>
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-1 text-sm text-gray-600">
-                              <Clock className="w-3.5 h-3.5" />
+                          <td className="py-3 px-3">
+                            <div className="flex items-center gap-1 text-xs text-gray-600">
+                              <Clock className="w-3 h-3" />
                               {order.time}
                             </div>
                           </td>
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-2">
+                          <td className="py-3 px-3">
+                            <div className="flex items-center gap-1">
                               <button
                                 onClick={() => handleViewOrder(order)}
-                                className="p-2 hover:bg-pink-100 rounded-lg transition-colors group relative"
+                                className="p-1.5 hover:bg-pink-100 rounded-lg transition-colors group relative"
                                 title="View Order Details"
                               >
                                 <Eye className="w-4 h-4 text-gray-600 group-hover:text-pink-600" />
-                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                  View Details
-                                </span>
                               </button>
                               <button
                                 onClick={() =>
                                   window.open(order.paymentProof, "_blank")
                                 }
-                                className="p-2 hover:bg-blue-100 rounded-lg transition-colors group relative"
+                                className="p-1.5 hover:bg-blue-100 rounded-lg transition-colors group relative"
                                 title="View Payment Proof"
                               >
                                 <Image className="w-4 h-4 text-gray-600 group-hover:text-blue-600" />
-                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                  Payment Proof
-                                </span>
                               </button>
                               <button
                                 onClick={() => handleDeleteOrder(order._id)}
-                                className="p-2 hover:bg-red-100 rounded-lg transition-colors group relative"
+                                className="p-1.5 hover:bg-red-100 rounded-lg transition-colors group relative"
                                 title="Delete Order"
                               >
                                 <Trash2 className="w-4 h-4 text-gray-600 group-hover:text-red-600" />
-                                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                  Delete
-                                </span>
                               </button>
                             </div>
                           </td>
@@ -680,17 +667,18 @@ const AdminDashboard = () => {
               )}
             </div>
 
-            {/* Right Column - Revenue Chart Only (Quick Actions REMOVED) */}
             <div className="space-y-6">
-              <div className="bg-white rounded-xl shadow border border-gray-100 p-5 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-xl shadow border border-gray-100 p-4 md:p-5 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-gray-900">Revenue This Week</h3>
-                  <div className="text-emerald-600 text-sm font-semibold flex items-center bg-emerald-50 px-2 py-1 rounded-lg">
+                  <h3 className="font-bold text-gray-900 text-sm md:text-base">
+                    Revenue This Week
+                  </h3>
+                  <div className="text-emerald-600 text-xs md:text-sm font-semibold flex items-center bg-emerald-50 px-2 py-1 rounded-lg">
                     <TrendingUp className="w-3 h-3 mr-1" />
                     {dashboardData?.revenueChange || 12.5}%
                   </div>
                 </div>
-                <div className="h-40 flex items-end gap-2 mb-4">
+                <div className="h-32 md:h-40 flex items-end gap-2 mb-4">
                   {[65, 80, 60, 90, 75, 85, 95].map((height, i) => (
                     <div
                       key={i}
@@ -707,7 +695,7 @@ const AdminDashboard = () => {
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                  <p className="text-xl md:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
                     ₦
                     {dashboardData?.weeklyRevenue?.toLocaleString() ||
                       "245,800"}
@@ -722,7 +710,6 @@ const AdminDashboard = () => {
         </main>
       </div>
 
-      {/* Order Details Modal */}
       {showModal && (
         <OrderDetailsModal
           order={selectedOrder}

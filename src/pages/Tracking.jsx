@@ -74,15 +74,12 @@ const TrackingResult = () => {
     }
   };
 
-  // ---------- Animation: Moving Truck ----------
-  // Calculate left percentage based on status index
   const truckLeftPosition = () => {
     const index = getStatusIndex(order?.status);
-    // Spread truck across the 4 steps: 0% -> 33% -> 66% -> 100%
+
     return `${(index / (statusSteps.length - 1)) * 100}%`;
   };
 
-  // ---------- Format Date Safely ----------
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
@@ -96,7 +93,6 @@ const TrackingResult = () => {
     });
   };
 
-  // ---------- Loading State ----------
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center">
@@ -108,7 +104,6 @@ const TrackingResult = () => {
     );
   }
 
-  // ---------- Error State ----------
   if (error || !order) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-4">
@@ -139,7 +134,6 @@ const TrackingResult = () => {
     );
   }
 
-  // ---------- Main Render ----------
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -153,9 +147,7 @@ const TrackingResult = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Left Column - Status & Items */}
           <div className="md:col-span-2 space-y-6">
-            {/* ---------- Order Status with Moving Truck Animation ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
@@ -164,25 +156,21 @@ const TrackingResult = () => {
                 </h2>
                 <span
                   className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusColor(
-                    order.status
+                    order.status,
                   )}`}
                 >
                   {order.status?.toUpperCase() || "PENDING"}
                 </span>
               </div>
 
-              {/* Progress Bar with Moving Truck */}
               <div className="relative pt-8 pb-4">
-                {/* Grey background line */}
                 <div className="absolute left-0 top-[26px] w-full h-1 bg-gray-200 rounded-full"></div>
-                
-                {/* Colored progress fill (optional, shows how far) */}
+
                 <div
                   className="absolute left-0 top-[26px] h-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full transition-all duration-700"
                   style={{ width: truckLeftPosition() }}
                 ></div>
 
-                {/* Status dots and labels */}
                 <div className="flex justify-between relative">
                   {statusSteps.map((step, index) => {
                     const isReached = index <= getStatusIndex(order.status);
@@ -203,28 +191,25 @@ const TrackingResult = () => {
                   })}
                 </div>
 
-                {/* Animated Truck */}
                 <div
                   className="absolute top-[18px] transition-all duration-700 ease-in-out"
                   style={{ left: truckLeftPosition() }}
                 >
                   <div className="relative -translate-x-1/2">
                     <FaTruck className="text-pink-600 text-2xl drop-shadow-md" />
-                    {/* Small glow effect */}
+
                     <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-pink-300 rounded-full blur-sm"></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* ---------- Order Items ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaShoppingCart className="text-pink-500" />
                 Order Items
               </h2>
               <div className="space-y-4">
-                {/* Use cartItems (backend field) */}
                 {(order.cartItems || []).map((item, index) => (
                   <div
                     key={index}
@@ -242,7 +227,9 @@ const TrackingResult = () => {
                           Quantity: {item.quantity}
                         </p>
                         {item.size && (
-                          <p className="text-xs text-gray-500">Size: {item.size}</p>
+                          <p className="text-xs text-gray-500">
+                            Size: {item.size}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -271,9 +258,7 @@ const TrackingResult = () => {
             </div>
           </div>
 
-          {/* Right Column - Customer & Order Info */}
           <div className="space-y-6">
-            {/* ---------- Customer Details ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaUser className="text-pink-500" />
@@ -303,7 +288,6 @@ const TrackingResult = () => {
                   </div>
                 </div>
 
-                {/* ✅ EMAIL - fixed to show customerEmail */}
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                     <FaEnvelope className="text-green-500" />
@@ -330,7 +314,6 @@ const TrackingResult = () => {
               </div>
             </div>
 
-            {/* ---------- Order Information ---------- */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <FaBox className="text-pink-500" />
@@ -342,8 +325,7 @@ const TrackingResult = () => {
                   <span className="text-gray-600">Order ID:</span>
                   <span className="font-semibold">{order.orderId}</span>
                 </div>
-                
-                {/* ✅ DATE - fixed with fallback */}
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Order Date:</span>
                   <span className="font-semibold">
@@ -351,7 +333,6 @@ const TrackingResult = () => {
                   </span>
                 </div>
 
-                {/* ✅ Optionally show payment status and delivery type if available */}
                 {order.paymentStatus && (
                   <div className="flex justify-between">
                     <span className="text-gray-600">Payment Status:</span>
@@ -378,7 +359,6 @@ const TrackingResult = () => {
               </div>
             </div>
 
-            {/* ---------- Help Card ---------- */}
             <div className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl shadow-lg p-6">
               <h3 className="text-white font-bold text-lg mb-4">Need Help?</h3>
               <p className="text-white text-sm mb-6">
